@@ -1,0 +1,67 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2021",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "noImplicitAny": true,
+    "strictBindCallApply": false,
+    "forceConsistentCasingInFileNames": false,
+    "noFallthroughCasesInSwitch": false,
+    "resolveJsonModule": true,
+    "paths": {
+      "@app/persistence": [
+        "libs/persistence/src"
+      ],
+      "@app/persistence/*": [
+        "libs/persistence/src/*"
+      ],
+      "@app/common": [
+        "libs/common/src"
+      ],
+      "@app/common/*": [
+        "libs/common/src/*"
+      ],
+      "@app/utils": [
+        "libs/utils/src"
+      ],
+      "@app/utils/*": [
+        "libs/utils/src/*"
+      ],
+      "@app/database-config": [
+        "libs/database-config/src"
+      ],
+      "@app/database-config/*": [
+        "libs/database-config/src/*"
+      ],
+      "@app/report": [
+        "libs/report/src"
+      ],
+      "@app/report/*": [
+        "libs/report/src/*"
+      ],
+      "@app/sentry": [
+        "libs/sentry/src"
+      ],
+      "@app/sentry/*": [
+        "libs/sentry/src/*"
+      ],
+      "@app/logger": [
+        "libs/logger/src"
+      ],
+      "@app/logger/*": [
+        "libs/logger/src/*"
+      ]
+    }
+  }
+}
