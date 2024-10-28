@@ -2,7 +2,6 @@ import { Module } from '@nestjs/common';
 import { APP_FILTER } from '@nestjs/core';
 import { ExceptionFilter } from '@app/common/filters/exception.filter';
 import { HealthController } from './health/health.controller';
-import { AssetModule } from './asset/asset.module';
 import { getLoggerModule } from '@app/logger/logger.module';
 import { getTypeOrmModule } from '@app/database-config/getTypeOrmModule';
 import { AuthModule } from './auth/auth.module';
@@ -18,7 +17,6 @@ import { ConfigService } from '@app/common/config/config.service';
     },
     getLoggerModule(),
     getTypeOrmModule(),
-    AssetModule,
     AuthModule,
     TelegramModule,
   ],
