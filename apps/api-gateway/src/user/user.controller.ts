@@ -22,7 +22,7 @@ export class UserController {
 
   @ApiTags('User')
   @ApiOperation({
-    summary: 'Get my profile',
+    summary: 'Get my profile.',
   })
   @ApiBearerAuth()
   @Get()
