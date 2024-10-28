@@ -24,7 +24,7 @@ export class ConfigService {
           this.config = Development;
           break;
         default:
-          throw new Error('정의되지 않은 환경입니다');
+          throw new Error('Unsupported environment');
       }
     }
 
