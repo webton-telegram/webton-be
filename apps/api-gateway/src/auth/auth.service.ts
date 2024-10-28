@@ -12,6 +12,7 @@ import { GetUserByIdDto } from '@app/persistence/user/user.repository.dto';
 import { UserEntity } from '@app/persistence/user/user.entity';
 import { TelegramService } from '../telegram/telegram.service';
 import { TelegramLoginData } from '../telegram/dto/telegram.dto';
+
 @Injectable()
 export class AuthService {
   constructor(
