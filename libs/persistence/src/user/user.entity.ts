@@ -1,5 +1,6 @@
+import { ClassValidator } from '@app/utils/ClassValidator';
 import { plainToInstance } from 'class-transformer';
-import { validate } from 'class-validator';
+import { IsOptional } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -11,29 +12,42 @@ import {
 @Entity('user')
 export class UserEntity {
   @PrimaryGeneratedColumn('increment')
+  @IsOptional()
   id?: number;
 
-  @Column('varchar', { length: 200, nullable: true })
-  email?: string;
+  @Column('varchar')
+  socialId!: string;
+
+  @Column('varchar', { nullable: true })
+  @IsOptional()
+  firstName?: string;
+
+  @Column('varchar', { nullable: true })
+  @IsOptional()
+  lastName?: string;
+
+  @Column('varchar', { nullable: true })
+  @IsOptional()
+  userName?: string;
+
+  @Column('varchar', { nullable: true })
+  @IsOptional()
+  photoUrl?: string;
 
   @CreateDateColumn({ type: 'timestamptz' })
+  @IsOptional()
   createdAt?: Date;
 
   @UpdateDateColumn({ type: 'timestamptz' })
+  @IsOptional()
   updatedAt?: Date;
 
-  static async from(params: { id?: number; email?: string }) {
+  static async from(params: InstanceType<typeof UserEntity>) {
     const instance = plainToInstance(this, {
       ...params,
     });
 
-    const validated = await validate(instance);
-    if (validated.length > 0) {
-      const messages = validated
-        .map((e) => Object.entries(e.constraints)[0][1])
-        .toString();
-      throw new Error(messages);
-    }
+    await ClassValidator.validate(instance);
 
     return instance;
   }

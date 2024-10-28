@@ -5,6 +5,10 @@ import { Repository } from 'typeorm';
 // import { ExceptionCode, ExceptionMessage } from 'src/constant/exception';
 import { GetUserByIdDto } from './user.repository.dto';
 import { UserEntity } from './user.entity';
+import {
+  ServiceException,
+  ServiceExceptionCode,
+} from '@app/common/ServiceException';
 
 @Injectable()
 export class UserRepositoryService {
@@ -13,27 +17,46 @@ export class UserRepositoryService {
     private userRepository: Repository<UserEntity>,
   ) {}
 
-  // async getUserById(dto: GetUserByIdDto): Promise<UserEntity> {
-  //   const user = await this.findUserById(dto);
+  async getUserById(dto: GetUserByIdDto): Promise<UserEntity> {
+    const user = await this.findUserById(dto);
 
-  //   if (!user) {
-  //     throw new ServiceError(ExceptionCode.ContentNotFound);
-  //   }
+    if (!user) {
+      throw new ServiceException(ServiceExceptionCode.ContentNotFound);
+    }
 
-  //   return user;
-  // }
+    return user;
+  }
 
-  // async findUserById(dto: GetUserByIdDto): Promise<UserEntity | null> {
-  //   const user = await this.userRepository
-  //     .createQueryBuilder('u')
-  //     .where('u.id = :id', { id: dto.id })
-  //     .getOne();
+  async findUserById(dto: GetUserByIdDto): Promise<UserEntity | null> {
+    const user = await this.userRepository
+      .createQueryBuilder('u')
+      .where('u.id = :id', { id: dto.id })
+      .getOne();
 
-  //   return user;
-  // }
+    return user;
+  }
 
-  // async saveUser(userEntity: UserEntity): Promise<UserEntity> {
-  //   const user = await this.userRepository.save(userEntity);
-  //   return user;
-  // }
+  async getUserBySocialId(socialId: string): Promise<UserEntity> {
+    const user = await this.findUserBySocialId(socialId);
+
+    if (!user) {
+      throw new ServiceException(ServiceExceptionCode.ContentNotFound);
+    }
+
+    return user;
+  }
+
+  async findUserBySocialId(socialId: string): Promise<UserEntity | null> {
+    const user = await this.userRepository
+      .createQueryBuilder('u')
+      .where('u.socialId = :socialId', { socialId })
+      .getOne();
+
+    return user;
+  }
+
+  async saveUser(userEntity: UserEntity): Promise<UserEntity> {
+    const user = await this.userRepository.save(userEntity);
+    return user;
+  }
 }

@@ -19,49 +19,22 @@
     "forceConsistentCasingInFileNames": false,
     "noFallthroughCasesInSwitch": false,
     "resolveJsonModule": true,
+    "esModuleInterop": true,
     "paths": {
-      "@app/persistence": [
-        "libs/persistence/src"
-      ],
-      "@app/persistence/*": [
-        "libs/persistence/src/*"
-      ],
-      "@app/common": [
-        "libs/common/src"
-      ],
-      "@app/common/*": [
-        "libs/common/src/*"
-      ],
-      "@app/utils": [
-        "libs/utils/src"
-      ],
-      "@app/utils/*": [
-        "libs/utils/src/*"
-      ],
-      "@app/database-config": [
-        "libs/database-config/src"
-      ],
-      "@app/database-config/*": [
-        "libs/database-config/src/*"
-      ],
-      "@app/report": [
-        "libs/report/src"
-      ],
-      "@app/report/*": [
-        "libs/report/src/*"
-      ],
-      "@app/sentry": [
-        "libs/sentry/src"
-      ],
-      "@app/sentry/*": [
-        "libs/sentry/src/*"
-      ],
-      "@app/logger": [
-        "libs/logger/src"
-      ],
-      "@app/logger/*": [
-        "libs/logger/src/*"
-      ]
+      "@app/persistence": ["libs/persistence/src"],
+      "@app/persistence/*": ["libs/persistence/src/*"],
+      "@app/common": ["libs/common/src"],
+      "@app/common/*": ["libs/common/src/*"],
+      "@app/utils": ["libs/utils/src"],
+      "@app/utils/*": ["libs/utils/src/*"],
+      "@app/database-config": ["libs/database-config/src"],
+      "@app/database-config/*": ["libs/database-config/src/*"],
+      "@app/report": ["libs/report/src"],
+      "@app/report/*": ["libs/report/src/*"],
+      "@app/sentry": ["libs/sentry/src"],
+      "@app/sentry/*": ["libs/sentry/src/*"],
+      "@app/logger": ["libs/logger/src"],
+      "@app/logger/*": ["libs/logger/src/*"]
     }
   }
 }

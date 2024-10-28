@@ -1,0 +1,3 @@
+libs/common/src/config/Local.ts filter=git-crypt diff=git-crypt
+libs/common/src/config/Development.ts filter=git-crypt diff=git-crypt
+libs/common/src/config/Production.ts filter=git-crypt diff=git-crypt
