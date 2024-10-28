@@ -46,7 +46,7 @@ jobs:
       - name: Generate deployment package
         run: |
           mkdir -p deploy_package
-          cp -r dist/apps/api/* deploy_package/
+          cp -r dist/apps/api-gateway/* deploy_package/
           cp package.json package-lock.json deploy_package/
           cp Procfile deploy_package/
           cd deploy_package && zip -r ../api-gateway-deploy.zip .
