@@ -1,14 +1,8 @@
 import { UserEntity } from '@app/persistence/user/user.entity';
 import { ClassValidator } from '@app/utils/ClassValidator';
 import { ApiProperty } from '@nestjs/swagger';
-import { Expose, plainToInstance } from 'class-transformer';
-import {
-  IsDate,
-  IsEmail,
-  IsNumber,
-  IsOptional,
-  IsString,
-} from 'class-validator';
+import { Expose, plainToInstance, Type } from 'class-transformer';
+import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
 export class User {
   @ApiProperty()
@@ -18,13 +12,33 @@ export class User {
 
   @ApiProperty()
   @Expose()
-  @IsEmail()
-  email!: string;
+  @Type(() => Number)
+  @IsNumber()
+  socialId!: string;
 
   @ApiProperty()
   @Expose()
   @IsString()
-  name!: string;
+  @IsOptional()
+  firstName?: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  @IsOptional()
+  lastName?: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  @IsOptional()
+  userName?: string;
+
+  @ApiProperty()
+  @Expose()
+  @IsString()
+  @IsOptional()
+  photoUrl?: string;
 
   @ApiProperty()
   @Expose()
