@@ -1,6 +1,6 @@
 import { ClassValidator } from '@app/utils/ClassValidator';
 import { plainToInstance } from 'class-transformer';
-import { IsOptional } from 'class-validator';
+import { IsNumber, IsOptional, IsString } from 'class-validator';
 import {
   Entity,
   PrimaryGeneratedColumn,
@@ -8,36 +8,31 @@ import {
   UpdateDateColumn,
   Column,
   OneToOne,
+  JoinColumn,
 } from 'typeorm';
-import { WalletEntity } from '../wallet/wallet.entity';
+import { UserEntity } from '../user/user.entity';
 
-@Entity('user')
-export class UserEntity {
+@Entity('wallet')
+export class WalletEntity {
   @PrimaryGeneratedColumn('increment')
   @IsOptional()
   id?: number;
 
   @Column('varchar')
-  socialId!: string;
+  @IsString()
+  address!: string;
 
-  @Column('varchar', { nullable: true })
+  @Column('int')
+  @IsNumber()
+  userId!: number;
+
+  @OneToOne(() => UserEntity, {
+    onDelete: 'CASCADE',
+    onUpdate: 'CASCADE',
+  })
+  @JoinColumn({ name: 'user_id' })
   @IsOptional()
-  firstName?: string;
-
-  @Column('varchar', { nullable: true })
-  @IsOptional()
-  lastName?: string;
-
-  @Column('varchar', { nullable: true })
-  @IsOptional()
-  userName?: string;
-
-  @Column('varchar', { nullable: true })
-  @IsOptional()
-  photoUrl?: string;
-
-  @OneToOne(() => WalletEntity, (wallet) => wallet.user)
-  wallet?: WalletEntity;
+  user?: UserEntity;
 
   @CreateDateColumn({ type: 'timestamptz' })
   @IsOptional()
@@ -47,7 +42,7 @@ export class UserEntity {
   @IsOptional()
   updatedAt?: Date;
 
-  static async from(params: InstanceType<typeof UserEntity>) {
+  static async from(params: InstanceType<typeof WalletEntity>) {
     const instance = plainToInstance(this, {
       ...params,
     });

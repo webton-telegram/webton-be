@@ -42,6 +42,12 @@ export class User {
 
   @ApiProperty()
   @Expose()
+  @IsString()
+  @IsOptional()
+  walletAddress?: string;
+
+  @ApiProperty()
+  @Expose()
   @IsDate()
   createdAt!: Date;
 
@@ -50,6 +56,7 @@ export class User {
       this,
       {
         ...entity,
+        walletAddress: entity.wallet?.address,
       },
       {
         excludeExtraneousValues: true,

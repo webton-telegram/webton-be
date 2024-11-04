@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { TelegramModule } from './telegram/telegram.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@app/common/config/config.service';
+import { WalletModule } from './wallet/wallet.module';
+import { UserModule } from './user/user.module';
 
 @Module({
   imports: [
@@ -19,6 +21,8 @@ import { ConfigService } from '@app/common/config/config.service';
     getTypeOrmModule(),
     AuthModule,
     TelegramModule,
+    WalletModule,
+    UserModule,
   ],
   controllers: [HealthController],
   providers: [

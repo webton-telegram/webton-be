@@ -30,6 +30,7 @@ export class UserRepositoryService {
   async findUserById(dto: GetUserByIdDto): Promise<UserEntity | null> {
     const user = await this.userRepository
       .createQueryBuilder('u')
+      .leftJoinAndSelect('u.wallet', 'w')
       .where('u.id = :id', { id: dto.id })
       .getOne();
 
@@ -49,6 +50,7 @@ export class UserRepositoryService {
   async findUserBySocialId(socialId: string): Promise<UserEntity | null> {
     const user = await this.userRepository
       .createQueryBuilder('u')
+      .leftJoinAndSelect('u.wallet', 'w')
       .where('u.socialId = :socialId', { socialId })
       .getOne();
 
