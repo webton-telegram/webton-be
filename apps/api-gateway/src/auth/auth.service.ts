@@ -11,7 +11,6 @@ import {
 import { GetUserByIdDto } from '@app/persistence/user/user.repository.dto';
 import { UserEntity } from '@app/persistence/user/user.entity';
 import { TelegramService } from '../telegram/telegram.service';
-import { TelegramLoginData } from '../telegram/dto/telegram.dto';
 
 @Injectable()
 export class AuthService {
@@ -33,9 +32,11 @@ export class AuthService {
   }
 
   async signIn(dto: LoginRequest): Promise<LoginResponse> {
-    const loginData = await TelegramLoginData.from({ ...dto });
+    // const loginData = await TelegramLoginData.from({ ...dto });
 
-    const isVerified = await this.telegramService.verify(loginData);
+    const [isVerified, telegramUser] = this.telegramService.verifyInitData(
+      dto.telegramInitData,
+    );
 
     if (!isVerified) {
       throw new ServiceException(
@@ -45,16 +46,16 @@ export class AuthService {
     }
 
     let userEntity = await this.userRepositoryService.findUserBySocialId(
-      dto.id.toString(),
+      telegramUser.id.toString(),
     );
 
     if (!userEntity) {
       const entity = await UserEntity.from({
-        socialId: dto.id.toString(),
-        firstName: dto.first_name,
-        lastName: dto.last_name,
-        photoUrl: dto.photo_url,
-        userName: dto.username,
+        socialId: telegramUser.id.toString(),
+        firstName: telegramUser.first_name,
+        lastName: telegramUser.last_name,
+        languageCode: telegramUser.language_code,
+        userName: telegramUser.username,
       });
       userEntity = await this.userRepositoryService.saveUser(entity);
     }

@@ -4,6 +4,15 @@ import { ApiProperty } from '@nestjs/swagger';
 import { Expose, plainToInstance, Type } from 'class-transformer';
 import { IsDate, IsNumber, IsOptional, IsString } from 'class-validator';
 
+export interface TelegramUser {
+  id: number;
+  is_bot: boolean;
+  first_name: string;
+  last_name?: string | undefined;
+  username?: string | undefined;
+  language_code?: string | undefined;
+}
+
 export class User {
   @ApiProperty()
   @Expose()
@@ -38,7 +47,7 @@ export class User {
   @Expose()
   @IsString()
   @IsOptional()
-  photoUrl?: string;
+  languageCode?: string;
 
   @ApiProperty()
   @Expose()
@@ -71,36 +80,8 @@ export class User {
 
 export class LoginRequest {
   @ApiProperty()
-  @IsNumber()
-  id!: number;
-
-  @ApiProperty()
   @IsString()
-  @IsOptional()
-  first_name?: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  last_name?: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  username?: string;
-
-  @ApiProperty()
-  @IsString()
-  @IsOptional()
-  photo_url?: string;
-
-  @ApiProperty()
-  @IsNumber()
-  auth_date!: number;
-
-  @ApiProperty()
-  @IsString()
-  hash!: string;
+  telegramInitData!: string;
 }
 
 export class LoginResponse {

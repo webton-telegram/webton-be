@@ -34,7 +34,7 @@ export class UserEntity {
 
   @Column('varchar', { nullable: true })
   @IsOptional()
-  photoUrl?: string;
+  languageCode?: string;
 
   @OneToOne(() => WalletEntity, (wallet) => wallet.user)
   wallet?: WalletEntity;
