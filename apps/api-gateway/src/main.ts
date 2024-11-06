@@ -14,6 +14,11 @@ import { formatError } from '@app/utils/utils';
 async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule);
+
+  app.enableCors({
+    origin: true,
+  });
+
   const port = ConfigService.getConfig().PORT;
 
   app.setGlobalPrefix(ConfigService.getConfig().API_VERSION, {
