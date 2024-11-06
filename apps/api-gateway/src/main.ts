@@ -13,11 +13,11 @@ import { formatError } from '@app/utils/utils';
 
 async function bootstrap() {
   initializeTransactionalContext();
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create(AppModule, { cors: true });
 
-  app.enableCors({
-    origin: true,
-  });
+  // app.enableCors({
+  //   origin: true,
+  // });
 
   const port = ConfigService.getConfig().PORT;
 
