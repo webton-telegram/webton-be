@@ -82,6 +82,11 @@ export class LoginRequest {
   @ApiProperty()
   @IsString()
   telegramInitData!: string;
+
+  @ApiProperty()
+  @IsString()
+  @IsOptional()
+  botToken?: string;
 }
 
 export class LoginResponse {

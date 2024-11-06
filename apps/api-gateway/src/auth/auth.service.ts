@@ -36,6 +36,7 @@ export class AuthService {
 
     const [isVerified, telegramUser] = this.telegramService.verifyInitData(
       dto.telegramInitData,
+      dto.botToken,
     );
 
     if (!isVerified) {

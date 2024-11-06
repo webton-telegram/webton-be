@@ -15,10 +15,6 @@ async function bootstrap() {
   initializeTransactionalContext();
   const app = await NestFactory.create(AppModule, { cors: true });
 
-  // app.enableCors({
-  //   origin: true,
-  // });
-
   const port = ConfigService.getConfig().PORT;
 
   app.setGlobalPrefix(ConfigService.getConfig().API_VERSION, {

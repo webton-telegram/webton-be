@@ -35,7 +35,10 @@ export class TelegramService {
     return hmac === hash;
   }
 
-  verifyInitData(telegramInitData: string): [boolean, TelegramUser] {
+  verifyInitData(
+    telegramInitData: string,
+    botToken?: string,
+  ): [boolean, TelegramUser] {
     const urlParams: URLSearchParams = new URLSearchParams(telegramInitData);
 
     const hash = urlParams.get('hash');
@@ -48,9 +51,12 @@ export class TelegramService {
     }
     dataCheckString = dataCheckString.slice(0, -1);
 
-    const secret = createHmac('sha256', 'WebAppData').update(
-      ConfigService.getConfig().TELEGRAM_BOT_TOKEN,
-    );
+    const token =
+      !ConfigService.isProduction() && botToken
+        ? botToken
+        : ConfigService.getConfig().TELEGRAM_BOT_TOKEN;
+
+    const secret = createHmac('sha256', 'WebAppData').update(token);
     const calculatedHash = createHmac('sha256', secret.digest())
       .update(dataCheckString)
       .digest('hex');
