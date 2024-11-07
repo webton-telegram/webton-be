@@ -58,7 +58,14 @@ export class UserEntity {
     this.point += amount;
   }
 
-  static async from(params: InstanceType<typeof UserEntity>) {
+  static async from(params: {
+    socialId: string;
+    firstName?: string;
+    lastName?: string;
+    languageCode?: string;
+    userName?: string;
+    point?: number;
+  }) {
     const instance = plainToInstance(this, {
       ...params,
     });
