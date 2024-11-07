@@ -1,7 +1,7 @@
 import { Controller, Get, Query, Inject, UseGuards } from '@nestjs/common';
 import { REQUEST } from '@nestjs/core';
 import { Request } from 'express';
-import { ApiOperation, ApiTags } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { ToonService } from './toon.service';
 import { ResponseData } from '@app/common/decorators/response-data.decorator';
 import { ResponseList } from '@app/common/decorators/response-list.decorators';
@@ -76,6 +76,7 @@ export class ToonController {
     summary: 'Get Episode Image Links',
   })
   @ResponseData(ToonLink)
+  @ApiBearerAuth()
   @UseGuards(AuthGuard)
   @Get('episode')
   async getEpisodeLink(
