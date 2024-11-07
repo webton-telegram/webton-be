@@ -1,5 +1,5 @@
 import { ConfigService } from '@app/common/config/config.service';
-import { Inject, Injectable, Logger } from '@nestjs/common';
+import { HttpStatus, Inject, Injectable, Logger } from '@nestjs/common';
 import { getHttpEndpoint } from '@orbs-network/ton-access';
 import {
   Address,
@@ -8,7 +8,11 @@ import {
   loadStateInit,
   contractAddress,
 } from '@ton/ton';
-import { CheckProofRequestDto, Payload } from './dto/wallet.dto';
+import {
+  CheckProofRequestDto,
+  Payload,
+  WithdrawResult,
+} from './dto/wallet.dto';
 import { tryParsePublicKey } from './wrappers/wallets-data';
 import { sha256 } from '@ton/crypto';
 import { randomBytes, sign } from 'tweetnacl';
@@ -16,6 +20,12 @@ import { JwtService } from '@nestjs/jwt';
 import { UserEntity } from '@app/persistence/user/user.entity';
 import { WalletRepositoryService } from '@app/persistence/wallet/wallet.repository.service';
 import { WalletEntity } from '@app/persistence/wallet/wallet.entity';
+import {
+  ServiceException,
+  ServiceExceptionCode,
+} from '@app/common/ServiceException';
+import { TonService } from '../ton/ton.service';
+import { UserRepositoryService } from '@app/persistence/user/user.repository.service';
 
 const tonProofPrefix = 'ton-proof-item-v2/';
 const tonConnectPrefix = 'ton-connect';
@@ -29,11 +39,44 @@ const allowedDomains = [
 @Injectable()
 export class WalletService {
   constructor(
+    private readonly userRepositoryService: UserRepositoryService,
     private readonly walletRepositoryService: WalletRepositoryService,
+    private readonly tonService: TonService,
 
     @Inject(JwtService)
     private readonly jwtService: JwtService,
   ) {}
+
+  async withdraw(
+    userEntity: UserEntity,
+    amount: number,
+  ): Promise<WithdrawResult> {
+    if (!userEntity.wallet) {
+      throw new ServiceException(
+        ServiceExceptionCode.WalletNotConnected,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (userEntity.point! < amount) {
+      throw new ServiceException(
+        ServiceExceptionCode.InsufficientPoint,
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    const txHash = await this.tonService.sendJetton(
+      userEntity.wallet.address,
+      amount,
+    );
+
+    userEntity.updatePoint(-amount);
+
+    await this.userRepositoryService.saveUser(userEntity);
+
+    const result = await WithdrawResult.from({ txHash });
+    return result;
+  }
 
   async generatePayload(): Promise<Payload> {
     const payload = Buffer.from(randomBytes(32)).toString('hex');

@@ -19,6 +19,11 @@ export interface Configuration {
 
   readonly TELEGRAM_BOT_TOKEN: string;
 
+  readonly TON_ADMIN_WALLET_MNEMONIC: string;
+  readonly TOKEN_CONTRACT_ADDRESS: string;
+  readonly TON_ADMIN_ADDRESS: string;
+  readonly TON_ADMIN_JETTON_ADDRESS: string;
+
   readonly DB_INFO: {
     host: string;
     port: number;

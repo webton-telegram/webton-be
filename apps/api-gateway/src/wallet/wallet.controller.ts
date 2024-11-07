@@ -6,7 +6,13 @@ import { WalletService } from './wallet.service';
 import { ResponseData } from '@app/common/decorators/response-data.decorator';
 import { ResponseDataDto } from '@app/common/dto/response-data.dto';
 import { AuthGuard } from '../auth/auth.guard';
-import { CheckProofRequestDto, Payload } from './dto/wallet.dto';
+import {
+  CheckProofRequestDto,
+  Payload,
+  WithdrawRequestDto,
+  WithdrawResult,
+} from './dto/wallet.dto';
+import { TonService } from '../ton/ton.service';
 
 @Controller({
   path: 'wallet',
@@ -18,11 +24,14 @@ export class WalletController {
 
     @Inject(WalletService)
     private readonly walletService: WalletService,
+
+    @Inject(TonService)
+    private readonly tonService: TonService,
   ) {}
 
   @ApiTags('Wallet')
   @ApiOperation({
-    summary: 'Generate payload.',
+    summary: 'Generate payload',
   })
   @ApiBearerAuth()
   @Get()
@@ -34,7 +43,7 @@ export class WalletController {
 
   @ApiTags('Wallet')
   @ApiOperation({
-    summary: 'Connect Wallet.',
+    summary: 'Connect Wallet',
   })
   @ApiBearerAuth()
   @Post()
@@ -49,5 +58,21 @@ export class WalletController {
       params,
     );
     return new ResponseDataDto(isVerified);
+  }
+
+  @ApiTags('Wallet')
+  @ApiOperation({
+    summary: 'Withdraw Point',
+  })
+  @ApiBearerAuth()
+  @Post('withdraw')
+  @UseGuards(AuthGuard)
+  @ResponseData(WithdrawResult)
+  async withdraw(
+    @Body() params: WithdrawRequestDto,
+  ): Promise<ResponseDataDto<WithdrawResult>> {
+    const { userEntity } = this.req;
+    const result = await this.walletService.withdraw(userEntity, params.amount);
+    return new ResponseDataDto(result);
   }
 }

@@ -88,3 +88,25 @@ export class CheckProofRequestDto {
   @IsInstance(TonProof)
   proof!: TonProof;
 }
+
+export class WithdrawRequestDto {
+  @ApiProperty()
+  @IsNumber()
+  amount!: number;
+}
+
+export class WithdrawResult {
+  @ApiProperty()
+  @IsString()
+  txHash!: string;
+
+  static async from(params: InstanceType<typeof WithdrawResult>) {
+    const instance = plainToInstance(this, {
+      ...params,
+    });
+
+    await ClassValidator.validate(instance);
+
+    return instance;
+  }
+}

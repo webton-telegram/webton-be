@@ -9,6 +9,8 @@ import { EpisodeEntity } from './episode/episode.entity';
 import { HistoryLikeEntity } from './history-like/history-like.entity';
 import { HistoryViewEntity } from './history-view/history-view.entity';
 import { WalletRepositoryService } from './wallet/wallet.repository.service';
+import { TransactionLogEntity } from './transaction-log/transaction-log.entity';
+import { TransactionLogRepositoryService } from './transaction-log/transaction-log.repository.service';
 
 @Module({
   imports: [
@@ -19,9 +21,18 @@ import { WalletRepositoryService } from './wallet/wallet.repository.service';
       EpisodeEntity,
       HistoryLikeEntity,
       HistoryViewEntity,
+      TransactionLogEntity,
     ]),
   ],
-  providers: [UserRepositoryService, WalletRepositoryService],
-  exports: [UserRepositoryService, WalletRepositoryService],
+  providers: [
+    UserRepositoryService,
+    WalletRepositoryService,
+    TransactionLogRepositoryService,
+  ],
+  exports: [
+    UserRepositoryService,
+    WalletRepositoryService,
+    TransactionLogRepositoryService,
+  ],
 })
 export class PersistenceModule {}

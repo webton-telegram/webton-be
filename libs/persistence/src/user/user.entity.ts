@@ -32,6 +32,10 @@ export class UserEntity {
   @IsOptional()
   userName?: string;
 
+  @Column('int', { default: 0 })
+  @IsOptional()
+  point?: number;
+
   @Column('varchar', { nullable: true })
   @IsOptional()
   languageCode?: string;
@@ -46,6 +50,13 @@ export class UserEntity {
   @UpdateDateColumn({ type: 'timestamptz' })
   @IsOptional()
   updatedAt?: Date;
+
+  updatePoint(amount: number): void {
+    if (this.point === undefined) {
+      this.point = 0;
+    }
+    this.point += amount;
+  }
 
   static async from(params: InstanceType<typeof UserEntity>) {
     const instance = plainToInstance(this, {

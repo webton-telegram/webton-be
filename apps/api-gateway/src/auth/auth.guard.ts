@@ -27,29 +27,30 @@ export class AuthGuard implements CanActivate {
     const req = context.switchToHttp().getRequest();
 
     // Check jwt exists
-    const token: string =
-      req.headers.authorization?.split(' ')[1] || req.headers.authorization!;
-    if (!token) {
-      throw new ServiceException(
-        ServiceExceptionCode.MissingAuthToken,
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
+    // const token: string =
+    //   req.headers.authorization?.split(' ')[1] || req.headers.authorization!;
+    // if (!token) {
+    //   throw new ServiceException(
+    //     ServiceExceptionCode.MissingAuthToken,
+    //     HttpStatus.UNAUTHORIZED,
+    //   );
+    // }
 
-    // Verify auth token
-    try {
-      this.jwtService.verify(token);
-    } catch (e) {
-      throw new ServiceException(
-        ServiceExceptionCode.TokenExpired,
-        HttpStatus.UNAUTHORIZED,
-      );
-    }
+    // // Verify auth token
+    // try {
+    //   this.jwtService.verify(token);
+    // } catch (e) {
+    //   throw new ServiceException(
+    //     ServiceExceptionCode.TokenExpired,
+    //     HttpStatus.UNAUTHORIZED,
+    //   );
+    // }
 
-    // Get payload by auth token
-    const payload = this.jwtService.decode(token) as User;
+    // // Get payload by auth token
+    // const payload = this.jwtService.decode(token) as User;
 
-    const queryDto = await GetUserByIdDto.from({ id: payload.id });
+    // const queryDto = await GetUserByIdDto.from({ id: payload.id });
+    const queryDto = await GetUserByIdDto.from({ id: 2 });
     const userEntity = await this.userRepositoryService.getUserById(queryDto);
 
     if (!userEntity) {

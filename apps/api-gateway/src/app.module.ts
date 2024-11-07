@@ -10,6 +10,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { ConfigService } from '@app/common/config/config.service';
 import { WalletModule } from './wallet/wallet.module';
 import { UserModule } from './user/user.module';
+import { TonModule } from './ton/ton.module';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { UserModule } from './user/user.module';
     TelegramModule,
     WalletModule,
     UserModule,
+    TonModule,
   ],
   controllers: [HealthController],
   providers: [

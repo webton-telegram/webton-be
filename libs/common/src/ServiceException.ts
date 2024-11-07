@@ -29,4 +29,6 @@ export enum ServiceExceptionCode {
   DuplicateRequest = 'DUPLICATE_REQUEST',
 
   BadRequest = 'BAD_REQUEST',
+  WalletNotConnected = 'WALLET_NOT_CONNECTED',
+  InsufficientPoint = 'INSUFFICIENT_POINT',
 }
