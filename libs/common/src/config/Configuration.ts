@@ -33,4 +33,11 @@ export interface Configuration {
     password: string;
     sync: boolean;
   };
+
+  readonly AWS_S3: {
+    region: string;
+    accessKeyId: string;
+    secretAccessKey: string;
+    bucket: string;
+  };
 }

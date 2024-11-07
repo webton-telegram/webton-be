@@ -11,6 +11,8 @@ import { HistoryViewEntity } from './history-view/history-view.entity';
 import { WalletRepositoryService } from './wallet/wallet.repository.service';
 import { TransactionLogEntity } from './transaction-log/transaction-log.entity';
 import { TransactionLogRepositoryService } from './transaction-log/transaction-log.repository.service';
+import { ToonRepositoryService } from './toon/toon.repository.service';
+import { EpisodeRepositoryService } from './episode/episode.repository.service';
 
 @Module({
   imports: [
@@ -28,11 +30,15 @@ import { TransactionLogRepositoryService } from './transaction-log/transaction-l
     UserRepositoryService,
     WalletRepositoryService,
     TransactionLogRepositoryService,
+    ToonRepositoryService,
+    EpisodeRepositoryService,
   ],
   exports: [
     UserRepositoryService,
     WalletRepositoryService,
     TransactionLogRepositoryService,
+    ToonRepositoryService,
+    EpisodeRepositoryService,
   ],
 })
 export class PersistenceModule {}

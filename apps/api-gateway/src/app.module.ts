@@ -11,6 +11,7 @@ import { ConfigService } from '@app/common/config/config.service';
 import { WalletModule } from './wallet/wallet.module';
 import { UserModule } from './user/user.module';
 import { TonModule } from './ton/ton.module';
+import { ToonModule } from './toon/toon.module';
 
 @Module({
   imports: [
@@ -25,6 +26,7 @@ import { TonModule } from './ton/ton.module';
     WalletModule,
     UserModule,
     TonModule,
+    ToonModule,
   ],
   controllers: [HealthController],
   providers: [

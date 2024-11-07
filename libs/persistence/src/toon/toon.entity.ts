@@ -9,6 +9,7 @@ import {
   Column,
   ManyToOne,
   OneToMany,
+  JoinColumn,
 } from 'typeorm';
 import { UserEntity } from '../user/user.entity';
 import { EpisodeEntity } from '../episode/episode.entity';
@@ -41,6 +42,7 @@ export class ToonEntity {
     onDelete: 'NO ACTION',
     onUpdate: 'CASCADE',
   })
+  @JoinColumn({ name: 'user_id' })
   author?: UserEntity;
 
   @OneToMany(() => EpisodeEntity, (episode) => episode.toon)
