@@ -57,6 +57,11 @@ export class User {
 
   @ApiProperty()
   @Expose()
+  @IsNumber()
+  point!: number;
+
+  @ApiProperty()
+  @Expose()
   @IsDate()
   createdAt!: Date;
 
