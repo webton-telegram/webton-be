@@ -35,6 +35,7 @@ const allowedDomains = [
   'localhost:3000',
   'localhost:8000',
   'firmly-rational-beagle.ngrok-free.app',
+  'app.webton.ai',
 ];
 
 @Injectable()
