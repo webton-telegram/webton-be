@@ -27,6 +27,8 @@ export class EpisodeRepositoryService {
   async findEpisodeById(id: number): Promise<EpisodeEntity | null> {
     const episode = await this.episodeRepository
       .createQueryBuilder('e')
+      .leftJoinAndSelect('e.toon', 't')
+      .leftJoinAndSelect('t.author', 'a')
       .where('e.id = :id', { id })
       .getOne();
 
@@ -40,6 +42,8 @@ export class EpisodeRepositoryService {
   }): Promise<[EpisodeEntity[], number]> {
     const query = this.episodeRepository
       .createQueryBuilder('e')
+      .leftJoinAndSelect('e.toon', 't')
+      .leftJoinAndSelect('t.author', 'a')
       .where('e.toonId = :toonId', { toonId: params.toonId })
       .orderBy('e.episodeNumber', 'ASC')
       .skip(params.page * params.limit)

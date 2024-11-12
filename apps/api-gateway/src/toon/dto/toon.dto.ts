@@ -142,6 +142,11 @@ export class Episode {
   @ApiProperty()
   thumbnailUrl!: string;
 
+  @IsInstance(User)
+  @Expose()
+  @ApiProperty()
+  author!: User;
+
   @IsDate()
   @Expose()
   @ApiProperty()
@@ -152,6 +157,7 @@ export class Episode {
       this,
       {
         ...params,
+        author: await User.fromEntity(params.toon!.author!),
       },
       { excludeExtraneousValues: true },
     );
@@ -220,16 +226,22 @@ export class Toon {
 }
 
 export class ToonLink {
+  @IsInstance(Episode)
+  @Expose()
+  @ApiProperty()
+  episode!: Episode;
+
   @IsString()
   @Expose()
   @ApiProperty()
   url!: number;
 
-  static async from(params: { url: string }) {
+  static async from(params: { episodeEntity: EpisodeEntity; url: string }) {
     const instance = plainToInstance(
       this,
       {
         ...params,
+        episode: await Episode.fromEntity(params.episodeEntity),
       },
       { excludeExtraneousValues: true },
     );

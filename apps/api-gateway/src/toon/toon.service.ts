@@ -72,7 +72,7 @@ export class ToonService {
     userEntity.updatePoint(1);
     await this.userRepositoryService.saveUser(userEntity);
 
-    const toonLink = await ToonLink.from({ url });
+    const toonLink = await ToonLink.from({ url, episodeEntity });
 
     return toonLink;
   }
