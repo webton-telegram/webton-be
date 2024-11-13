@@ -101,6 +101,14 @@ export class EpisodeListRequestDto {
   })
   limit!: number;
 
+  @IsEnum(Sort)
+  @ApiProperty({
+    required: true,
+    enum: Sort,
+    description: 'Sort order (ASC or DESC)',
+  })
+  sort!: Sort;
+
   @IsNumber()
   @Type(() => Number)
   @ApiProperty({
@@ -231,17 +239,40 @@ export class ToonLink {
   @ApiProperty()
   episode!: Episode;
 
+  @IsOptional()
+  @IsInstance(Episode)
+  @Expose()
+  @ApiProperty()
+  prevEpisode?: Episode;
+
+  @IsOptional()
+  @IsInstance(Episode)
+  @Expose()
+  @ApiProperty()
+  nextEpisode?: Episode;
+
   @IsString()
   @Expose()
   @ApiProperty()
-  url!: number;
+  url!: string;
 
-  static async from(params: { episodeEntity: EpisodeEntity; url: string }) {
+  static async from(params: {
+    episodeEntity: EpisodeEntity;
+    prevEpisodeEntity: EpisodeEntity | null;
+    nextEpisodeEntity: EpisodeEntity | null;
+    url: string;
+  }) {
     const instance = plainToInstance(
       this,
       {
         ...params,
         episode: await Episode.fromEntity(params.episodeEntity),
+        nextEpisode: params.nextEpisodeEntity
+          ? await Episode.fromEntity(params.nextEpisodeEntity)
+          : null,
+        prevEpisode: params.prevEpisodeEntity
+          ? await Episode.fromEntity(params.prevEpisodeEntity)
+          : null,
       },
       { excludeExtraneousValues: true },
     );

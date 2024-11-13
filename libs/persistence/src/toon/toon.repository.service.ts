@@ -62,7 +62,7 @@ export class ToonRepositoryService {
       orderBy = 't.viewCount';
     }
 
-    query.orderBy(orderBy!, Sort.ASC ? 'ASC' : 'DESC');
+    query.orderBy(orderBy!, params.sort === Sort.ASC ? 'ASC' : 'DESC');
     query.skip(params.page * params.limit).take(params.limit);
 
     return await query.getManyAndCount();

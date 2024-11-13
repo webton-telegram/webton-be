@@ -8,10 +8,12 @@ import {
   UpdateDateColumn,
   Column,
   OneToOne,
+  Unique,
 } from 'typeorm';
 import { WalletEntity } from '../wallet/wallet.entity';
 
 @Entity('user')
+@Unique(['socialId'])
 export class UserEntity {
   @PrimaryGeneratedColumn('increment')
   @IsOptional()

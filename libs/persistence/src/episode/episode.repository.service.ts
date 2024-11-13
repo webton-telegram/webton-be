@@ -6,6 +6,7 @@ import {
   ServiceException,
   ServiceExceptionCode,
 } from '@app/common/ServiceException';
+import { Sort } from 'apps/api-gateway/src/toon/dto/toon.dto';
 
 @Injectable()
 export class EpisodeRepositoryService {
@@ -35,9 +36,25 @@ export class EpisodeRepositoryService {
     return episode;
   }
 
+  async findEpisodeByToonIdAndEpisodeNumber(
+    toonId: number,
+    episodeNumber: number,
+  ): Promise<EpisodeEntity | null> {
+    const episode = await this.episodeRepository
+      .createQueryBuilder('e')
+      .leftJoinAndSelect('e.toon', 't')
+      .leftJoinAndSelect('t.author', 'a')
+      .where('e.toonId = :toonId', { toonId })
+      .andWhere('e.episodeNumber = :episodeNumber', { episodeNumber })
+      .getOne();
+
+    return episode;
+  }
+
   async getEpisodesByToonId(params: {
     page: number;
     limit: number;
+    sort: Sort;
     toonId: number;
   }): Promise<[EpisodeEntity[], number]> {
     const query = this.episodeRepository
@@ -45,7 +62,7 @@ export class EpisodeRepositoryService {
       .leftJoinAndSelect('e.toon', 't')
       .leftJoinAndSelect('t.author', 'a')
       .where('e.toonId = :toonId', { toonId: params.toonId })
-      .orderBy('e.episodeNumber', 'ASC')
+      .orderBy('e.episodeNumber', params.sort === Sort.ASC ? 'ASC' : 'DESC')
       .skip(params.page * params.limit)
       .take(params.limit);
 

@@ -57,6 +57,18 @@ export class ToonService {
     const episodeEntity =
       await this.episodeRepositoryService.getEpisodeById(id);
 
+    const prevEpisodeEntity =
+      await this.episodeRepositoryService.findEpisodeByToonIdAndEpisodeNumber(
+        episodeEntity.toon!.id!,
+        episodeEntity.episodeNumber - 1,
+      );
+
+    const nextEpisodeEntity =
+      await this.episodeRepositoryService.findEpisodeByToonIdAndEpisodeNumber(
+        episodeEntity.toon!.id!,
+        episodeEntity.episodeNumber + 1,
+      );
+
     const { bucket, ...awsConfig } = ConfigService.getConfig().AWS_S3;
 
     const s3 = new AWS.S3(awsConfig);
@@ -72,7 +84,12 @@ export class ToonService {
     userEntity.updatePoint(1);
     await this.userRepositoryService.saveUser(userEntity);
 
-    const toonLink = await ToonLink.from({ url, episodeEntity });
+    const toonLink = await ToonLink.from({
+      url,
+      episodeEntity,
+      nextEpisodeEntity,
+      prevEpisodeEntity,
+    });
 
     return toonLink;
   }
